@@ -44,10 +44,9 @@ class kigyo:
        while True:
             x=random.randint(0,RACS)
             y=random.randint(0,RACS)
-            for i in range(len(self.snake)):
-                if (x,y)==self.snake[i]:
-                    continue
-            return (x,y)
+            if (x,y) in self.snake: # megnézem, hogy nem esik-e bele a kaja saját magába
+                return self.ujKaja() # rekurzió
+            return (x,y) # ha minden rendben van
 
     #mozgás: Gege kódja alapján
     def move(self, direction,mozgott):
