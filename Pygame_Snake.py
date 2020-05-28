@@ -41,9 +41,13 @@ class kigyo:
 
     #uj random kaja készítő
     def ujKaja(self):
-        x=random.randint(0,RACS)
-        y=random.randint(0,RACS)
-        return(x,y)
+       while True:
+            x=random.randint(0,RACS)
+            y=random.randint(0,RACS)
+            for i in range(len(self.snake)):
+                if (x,y)==self.snake[i]:
+                    continue
+            return (x,y)
 
     #mozgás: Gege kódja alapján
     def move(self, direction,mozgott):
