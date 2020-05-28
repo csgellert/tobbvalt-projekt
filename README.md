@@ -1,5 +1,11 @@
 # Többvált-projekt
 A Többváltozós analízis mérnöki alkalmazásai tárgyhoz készült projekt feladat.
 
-Hasznos összefoglaló pygame-ről (első 100 oldal a lényeges):
-# https://inventwithpython.com/makinggames.pdf
+## Hasznos összefoglaló pygame-ről (első 100 oldal a lényeges):
+https://inventwithpython.com/makinggames.pdf
+
+## Git összefoglalók:
+https://github.com/fbenedek/git-konzi
+
+http://math.bme.hu/~balazs/git/gitcml.html
+
