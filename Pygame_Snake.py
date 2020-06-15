@@ -50,8 +50,13 @@ szoveg2.center=(MERET/2,MERET/2)
 global mozgott
 mozgott=False
 
-"""# Class kígyó"""
 
+# globális változók
+gen = 0 # hanyadik generációnál járunk...
+darabszam = 10 #hány példány van egy generációban
+
+
+"""# Class kígyó"""
 #kígyó osztály. Próbáltam Gege kódjának logikáját követni
 #ahogy Gege kódjában, itt is egy négyzetes mátrix jelzi a kígyó helyét, egy "rácson" mozog, amely RACS osztásból áll (globális változó). A pozíció alapján rajzoljuk ki a képernyőre
 class kigyo:
@@ -68,12 +73,14 @@ class kigyo:
     kaja=((random.randint(0,RACS),random.randint(0,RACS))) #kaja random helyen
     elozo=2
 
-    def __init__(self):
+    def __init__(self,child=0):
         # majd meg kell adni a neurális háló struktúráját...
         self.weights = []#most a struktúra legyen pl 2:3:4
-        self.weights.append(np.random.rand(2,3))#A véletlen generált súlyfüggvények
-        self.weights.append(np.random.rand(3,4))
-
+        if child == 0:
+            self.weights.append(np.random.rand(2,3))#A véletlen generált súlyfüggvények
+            self.weights.append(np.random.rand(3,4))
+        else:
+            self.weights = child
     #uj random kaja készítő
     def ujKaja(self):
        while True:
@@ -157,14 +164,18 @@ class kigyo:
                 return True
 
 """# Class Evol"""
-
 class evol:
-    gen = 1 # hanyadik generációnál járunk...
     def __init__(self):
-        peldanySzam = 10 #hány példány van egy generációban
+        global darabszam
+        global gen
+        gen += 1
+        self.peldanySzam = darabszam
         self.peldanyok = [] #A kezdeti állományok...
-        for i in range(peldanySzam):
-            self.peldanyok.append(kigyo()) #töltsük fel az állományt
+        if gen == 1: # az első generációnál tölti fel randomokkal
+            for i in range(self.peldanySzam):
+                self.peldanyok.append(kigyo()) #töltsük fel az állományt
+    def add(self,inKigyo):
+        self.peldanyok.append(inKigyo)
     def mutat(self,a):
         display.fill(FEKETE) #minden ciklus elején töröljük a képernyő tartalmát
         határrajzol() #a határok megrajzolása
@@ -208,6 +219,23 @@ class evol:
     # ide majd meg kellene adni mit lásson a kígyó...
     def inpLayer(self, idx):
         return np.random.rand(1,2)
+    def select(self):
+        return (random.randint(0,self.peldanySzam-1),random.randint(0,self.peldanySzam-1))
+    def crossover(self):
+        a,b = self.select()
+        dad = self.peldanyok[a].weights
+        mom = self.peldanyok[b].weights
+        child = []
+        for i in range(len(dad)):
+            child.append((dad[i]+mom[i])/2)
+        return child
+
+def newgen(elozo): # új generációk előállítása, select, crossover ... (mutáció)
+    ujgen = evol() # új generációnak az objektuma
+    for i in range(darabszam):
+        ujgen.add(kigyo(elozo.crossover())) # az új generációhoz hozzáadjuk az gyerek példányt, amibe először berakjuk az új súlyfüggvényeket
+    return ujgen
+
 """# További
 
 ## rács
@@ -312,8 +340,9 @@ def main():
     sys.exit
 
 mozgott = False
-ai = evol()
-ai.play()
-ai.legjobb()
+ai = evol() # kezdő generáció
+ai2 = newgen(ai) # következő gen
 
+ai2.play()
+ai2.legjobb()
 #main()
