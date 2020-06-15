@@ -68,6 +68,12 @@ class kigyo:
     kaja=((random.randint(0,RACS),random.randint(0,RACS))) #kaja random helyen
     elozo=2
 
+    def __init__(self):
+        # majd meg kell adni a neurális háló struktúráját...
+        self.weights = []#most a struktúra legyen pl 2:3:4
+        self.weights.append(np.random.rand(2,3))#A véletlen generált súlyfüggvények
+        self.weights.append(np.random.rand(3,4))
+
     #uj random kaja készítő
     def ujKaja(self):
        while True:
@@ -155,7 +161,7 @@ class kigyo:
 class evol:
     gen = 1 # hanyadik generációnál járunk...
     def __init__(self):
-        peldanySzam = 100 #hány példány van egy generációban
+        peldanySzam = 10 #hány példány van egy generációban
         self.peldanyok = [] #A kezdeti állományok...
         for i in range(peldanySzam):
             self.peldanyok.append(kigyo()) #töltsük fel az állományt
@@ -167,9 +173,9 @@ class evol:
         pygame.display.update()
         CLOCK.tick(FPS)
     def play(self): #Mindegyik példány lejátszik egy meccset
-        for i in self.peldanyok:
+        for idx, i in enumerate(self.peldanyok):# bevezettem egy index változót is a fv-k miatt
             for k in range(100): # Ne bolyonghasssanak a végtelenségig...
-                irany = random.randint(0,3)# egyenlőre véletlenszerűen mozognak
+                irany = self.network(self.inpLayer(idx),idx) #továbbra is random mozgás, de már NN -nel
                 if(i.isAlive):
                     i.move(irany,mozgott)
                     if i.utkozike():
@@ -190,7 +196,18 @@ class evol:
                 maximum = i.fitness
                 maxidx = idx
         print(maximum , maxidx)
-
+    #sigmoid fv...
+    def sigm(self, x):
+        return 1/(1+np.exp(-x))
+    #maga a neurális háló
+    def network(self, inp, idx):
+        out = inp
+        for i in self.peldanyok[idx].weights: #hogy bárhány hidden layerrel munködjön
+            out = self.sigm(np.dot(out, i))
+        return np.argmax(out)
+    # ide majd meg kellene adni mit lásson a kígyó...
+    def inpLayer(self, idx):
+        return np.random.rand(1,2)
 """# További
 
 ## rács
