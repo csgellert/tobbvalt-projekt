@@ -172,7 +172,7 @@ class evol:
         self.peldanySzam = darabszam
         self.peldanyok = [] #A kezdeti állományok...
         if gen == 1: # az első generációnál tölti fel randomokkal
-            for i in range(peldanySzam):
+            for i in range(self.peldanySzam):
                 self.peldanyok.append(kigyo()) #töltsük fel az állományt
     def add(self,inKigyo):
         self.peldanyok.append(inKigyo)
@@ -220,10 +220,10 @@ class evol:
     def inpLayer(self, idx):
         return np.random.rand(1,2)
     def select(self):
-        return (random.randint(0,self.peldanySzam),random.randint(0,self.peldanySzam))
+        return (random.randint(0,self.peldanySzam-1),random.randint(0,self.peldanySzam-1))
     def crossover(self):
         a,b = self.select()
-        dad = self.peldanyok[a].weigths
+        dad = self.peldanyok[a].weights
         mom = self.peldanyok[b].weights
         child = []
         for i in range(len(dad)):
