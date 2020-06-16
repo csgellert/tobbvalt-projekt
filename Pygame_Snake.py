@@ -52,8 +52,7 @@ mozgott=False
 
 
 # globális változók
-gen = 0 # hanyadik generációnál járunk...
-darabszam = 10 #hány példány van egy generációban
+darabszam = 10 # hány példány van egy generációban
 
 
 """# Class kígyó"""
@@ -165,13 +164,14 @@ class kigyo:
 
 """# Class Evol"""
 class evol:
+    gen = 0 # hanyadik generációnál járunk... EZ EGY STATIKUS ADATTAG
     def __init__(self):
+        evol.gen += 1 # statikus adattagot egyel növeljük
+        self.gen = evol.gen # létrehozunk egy csak az adott példányhoz tartozó "gen" adattagot
         global darabszam
-        global gen
-        gen += 1
         self.peldanySzam = darabszam
         self.peldanyok = [] #A kezdeti állományok...
-        if gen == 1: # az első generációnál tölti fel randomokkal
+        if self.gen == 1: # az első generációnál tölti fel randomokkal
             for i in range(self.peldanySzam):
                 self.peldanyok.append(kigyo()) #töltsük fel az állományt
     def add(self,inKigyo):
