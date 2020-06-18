@@ -6,7 +6,7 @@ import random
 pygame.init() # varázslat
 
 # AI paraméterek
-darabszam = 5 # hány példány van egy generációban
+darabszam = 100 # hány példány van egy generációban
 
 
 

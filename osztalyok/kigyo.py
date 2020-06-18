@@ -19,8 +19,9 @@ class kigyo:
         # majd meg kell adni a neurális háló struktúráját...
         self.weights = []#most a struktúra legyen pl 2:3:4
         if child == 0:
-            self.weights.append(np.random.rand(2,3))#A véletlen generált súlyfüggvények
-            self.weights.append(np.random.rand(3,4))
+            self.weights.append(np.random.rand(2,20))#A véletlen generált súlyfüggvények
+           # self.weights.append(np.random.rand(20,20))
+            self.weights.append(np.random.rand(20,4))
         else:
             self.weights = child
     #uj random kaja készítő
