@@ -2,11 +2,7 @@
 from .globalis import *
 
 class kigyo:
-    fej=(3,3) #a kígyó feje
-    snake=[] #a kígyó testét tartalmazza
-    snake.append(fej)
-    snake.append((fej[0]-1,fej[1]))
-    snake.append((fej[0]-2,fej[1]))
+    
     isAlive=True #él-e a kígyó
     steps = 0 #hány lépést élt meg az adott példány... (ez az AIhoz jöhet jól)
     score = 0 # hány kaját evett meg eddig
@@ -20,10 +16,15 @@ class kigyo:
         self.weights = []#most a struktúra legyen pl 2:3:4
         if child == 0:
             self.weights.append(np.random.rand(2,20))#A véletlen generált súlyfüggvények
-           # self.weights.append(np.random.rand(20,20))
+            self.weights.append(np.random.rand(20,20))
             self.weights.append(np.random.rand(20,4))
         else:
             self.weights = child
+        self.fej=(3,3) #a kígyó feje
+        self.snake=[] #a kígyó testét tartalmazza
+        self.snake.append(self.fej)
+        self.snake.append((self.fej[0]-1,self.fej[1]))
+        self.snake.append((self.fej[0]-2,self.fej[1]))
     #uj random kaja készítő
     def ujKaja(self):
         self.score += 1
