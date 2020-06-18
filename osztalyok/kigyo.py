@@ -8,7 +8,7 @@ class kigyo:
     score = 0 # hány kaját evett meg eddig
     fitness = 0
     utolso=2 #az utolsó lépése a kígyónak (balra, jobbra, föl, le), hogy ne tudjon a kígyó töbsször egy irányba mozogni ("ugrani")
-    kaja=((random.randint(0,RACS),random.randint(0,RACS))) #kaja random helyen
+    #kaja=((random.randint(0,RACS),random.randint(0,RACS))) #kaja random helyen
     elozo=2
 
     def __init__(self,child=0):
@@ -16,7 +16,7 @@ class kigyo:
         self.weights = []#most a struktúra legyen pl 2:3:4
         if child == 0:
             self.weights.append(np.random.rand(2,20))#A véletlen generált súlyfüggvények
-            self.weights.append(np.random.rand(20,20))
+            #self.weights.append(np.random.rand(20,20))
             self.weights.append(np.random.rand(20,4))
         else:
             self.weights = child
@@ -25,9 +25,9 @@ class kigyo:
         self.snake.append(self.fej)
         self.snake.append((self.fej[0]-1,self.fej[1]))
         self.snake.append((self.fej[0]-2,self.fej[1]))
+        self.kaja = self.ujKaja()
     #uj random kaja készítő
     def ujKaja(self):
-        self.score += 1
         while True:
             x=random.randint(0,RACS)
             y=random.randint(0,RACS)
@@ -45,6 +45,7 @@ class kigyo:
                 if self.fej==self.kaja:
                     self.snake.insert(0,self.fej)
                     self.kaja= self.ujKaja()
+                    self.score += 1
                 else:
                     self.snake.pop()
                     self.snake.insert(0,self.fej)
@@ -55,6 +56,7 @@ class kigyo:
                 if self.fej==self.kaja:
                     self.snake.insert(0,self.fej)
                     self.kaja= self.ujKaja()
+                    self.score += 1
                 else:
                     self.snake.pop()
                     self.snake.insert(0,self.fej)
@@ -65,6 +67,7 @@ class kigyo:
                 if self.fej==self.kaja:
                     self.snake.insert(0,self.fej)
                     self.kaja= self.ujKaja()
+                    self.score += 1
                 else:
                     self.snake.pop()
                     self.snake.insert(0,self.fej)
@@ -75,6 +78,7 @@ class kigyo:
                 if self.fej==self.kaja:
                     self.snake.insert(0,self.fej)
                     self.kaja= self.ujKaja()
+                    self.score += 1
                 else:
                     self.snake.pop()
                     self.snake.insert(0,self.fej)
