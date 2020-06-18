@@ -49,6 +49,21 @@ class evol:
         return np.argmax(out)
     # ide majd meg kellene adni mit lásson a kígyó...
     def inpLayer(self, idx):
+        layer = [] # irányvektor, falak vannak-e
+
+        fejHely = np.asarray(self.peldanyok[idx].fej)
+        kajaHely = np.asarray(self.peldanyok[idx].kaja)
+        iranyvektor = kajaHely-fejHely
+        iranyvektor = iranyvektor/np.hypot(iranyvektor[0],iranyvektor[1]) # normalizálás
+        layer.append(iranyvektor[0])
+        layer.append(iranyvektor[1])
+
+        # négy irányba végignézni, hogy van-e test vagy fal => true / false
+
+        if self.fej[0]<0 or self.fej[0]>RACS or self.fej[1]<0 or self.fej[1]>RACS:
+        for i in range(len(self.snake)-1):
+            if self.snake[i+1]==self.fej:
+
         return np.random.rand(1,2)
     def select(self):
         return (random.randint(0,self.peldanySzam-1),random.randint(0,self.peldanySzam-1))
@@ -60,6 +75,9 @@ class evol:
         for i in range(len(dad)):
             child.append((dad[i]+mom[i])/2)
         return child
+    def mutate(self):
+        pass
+
 
 
 # új generációk előállítása, select, crossover ... (mutáció)

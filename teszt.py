@@ -1,10 +1,15 @@
-class evol:
-	a = 0
-	def __init__(self,szoveg):
-		self.a = evol.a    # sorszám
-		evol.a += 1
-		self.b = szoveg
-ai = evol('szoveg')
-ai2 = evol('nem szoveg')
-print(ai.a,ai.b)
-print(ai2.a,ai2.b)
+import numpy as np
+import time
+tomb = (1,2)
+
+start = time.time()
+layer1 = np.array(tomb)
+end = time.time()
+print("array:",end-start)
+print(type(layer1))
+
+start = time.time()
+layer2 = np.asarray(tomb)
+end = time.time()
+print("asarray:",end-start)
+print(type(layer2))

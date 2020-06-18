@@ -1,7 +1,3 @@
-import pygame, sys
-from pygame.locals import *
-import numpy as np
-import random
 from osztalyok import *   # minden osztályt / függvényt az osztalyok csomagból importálunk
 
 #main()
