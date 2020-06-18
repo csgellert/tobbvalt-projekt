@@ -22,21 +22,23 @@ class evol:
         a.kajarajzol()
         pygame.display.update()
         CLOCK.tick(FPS)
-    def play(self): #Mindegyik példány lejátszik egy meccset
-        for idx, i in enumerate(self.peldanyok):# bevezettem egy index változót is a fv-k miatt
+    def play(self, mode = 0): #Mindegyik példány lejátszik egy meccset
+        for idx, obj in enumerate(self.peldanyok):# bevezettem egy index változót is a fv-k miatt
             for k in range(100): # Ne bolyonghasssanak a végtelenségig...
                 irany = self.network(self.inpLayer(idx),idx) #továbbra is random mozgás, de már NN -nel
-                if(i.isAlive):
-                    i.move(irany,mozgott)
-                    if i.utkozike():
-                      i.isAlive=False
-                    self.mutat(i)
+                if(obj.isAlive):
+                    obj.move(irany,mozgott)
+                    if obj.utkozike():
+                      obj.isAlive=False
+                    if (mode ==1):
+                        self.mutat(obj)
                 else:
                     display.blit(szoveg1,szoveg2)
                     pygame.display.update()
-                    CLOCK.tick(1)
+                    if (mode == 1):
+                        CLOCK.tick(1)
                     break # Ha meghal ne csinálja tovább...
-            i.fitness = i.steps + (2**i.score)*20 # fitness számítás
+            obj.fitness = obj.steps + (2**obj.score)*20 # fitness számítás
     #sigmoid fv...
     def sigm(self, x):
         return 1/(1+np.exp(-x))
