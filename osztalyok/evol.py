@@ -60,6 +60,90 @@ class evol:
         layer.append(iranyvektor[1])
 
         # négy irányba végignézni, hogy van-e test vagy fal => true / false
+        #ha előtte van a fal vagy a teste:
+        if self.peldanyok[idx].utolso==0:
+            if fejHely[0]-1<0 or (fejHely[0]-1,fejHely[1]) in self.peldanyok[idx].snake:
+                layer.append(1)
+            else:
+                layer.append(0)
+        elif self.peldanyok[idx].utolso==1:
+            if fejHely[1]+1<0 or (fejHely[0],fejHely[1]+1) in self.peldanyok[idx].snake:
+                layer.append(1)
+            else:
+                layer.append(0)
+        elif self.peldanyok[idx].utolso==2:
+            if fejHely[0]+1<0 or (fejHely[0]+1,fejHely[1]) in self.peldanyok[idx].snake:
+                layer.append(1)
+            else:
+                layer.append(0)
+        elif self.peldanyok[idx].utolso==3:
+            if fejHely[1]-1<0 or (fejHely[0],fejHely[1]-1) in self.peldanyok[idx].snake:
+                layer.append(1)
+            else:
+                layer.append(0)
+        #ha balra van a fal vagy a teste:
+        if self.peldanyok[idx].utolso==0:
+            if fejHely[1]-1<0 or (fejHely[0],fejHely[1]-1) in self.peldanyok[idx].snake:
+                layer.append(1)
+            else:
+                layer.append(0)
+        elif self.peldanyok[idx].utolso==1:
+            if fejHely[0]-1<0 or (fejHely[0]-1,fejHely[1]) in self.peldanyok[idx].snake:
+                layer.append(1)
+            else:
+                layer.append(0)
+        elif self.peldanyok[idx].utolso==2:
+            if fejHely[1]+1<0 or (fejHely[0],fejHely[1]+1) in self.peldanyok[idx].snake:
+                layer.append(1)
+            else:
+                layer.append(0)
+        elif self.peldanyok[idx].utolso==3:
+            if fejHely[0]+1<0 or (fejHely[0]+1,fejHely[1]) in self.peldanyok[idx].snake:
+                layer.append(1)
+            else:
+                layer.append(0)
+        #ha jobbra van a kigyó vagy a teste:
+        if self.peldanyok[idx].utolso==0:
+            if fejHely[1]+1<0 or (fejHely[0],fejHely[1]+1) in self.peldanyok[idx].snake:
+                layer.append(1)
+            else:
+                layer.append(0)
+        elif self.peldanyok[idx].utolso==1:
+            if fejHely[0]+1<0 or (fejHely[0]+1,fejHely[1]) in self.peldanyok[idx].snake:
+                layer.append(1)
+            else:
+                layer.append(0)
+        elif self.peldanyok[idx].utolso==2:
+            if fejHely[1]-1<0 or (fejHely[0],fejHely[1]-1) in self.peldanyok[idx].snake:
+                layer.append(1)
+            else:
+                layer.append(0)
+        elif self.peldanyok[idx].utolso==3:
+            if fejHely[0]-1<0 or (fejHely[0]-1,fejHely[1]) in self.peldanyok[idx].snake:
+                layer.append(1)
+            else:
+                layer.append(0)
+        #ha mögötte van a fal vagy a teste: (elvileg mindig 1)
+        if self.peldanyok[idx].utolso==0:
+            if fejHely[0]+1<0 or (fejHely[0]+1,fejHely[1]) in self.peldanyok[idx].snake:
+                layer.append(1)
+            else:
+                layer.append(0)
+        elif self.peldanyok[idx].utolso==1:
+            if fejHely[1]-1<0 or (fejHely[0],fejHely[1]-1) in self.peldanyok[idx].snake:
+                layer.append(1)
+            else:
+                layer.append(0)
+        elif self.peldanyok[idx].utolso==2:
+            if fejHely[0]-1<0 or (fejHely[0]-1,fejHely[1]) in self.peldanyok[idx].snake:
+                layer.append(1)
+            else:
+                layer.append(0)
+        elif self.peldanyok[idx].utolso==3:
+            if fejHely[1]+1<0 or (fejHely[0],fejHely[1]+1) in self.peldanyok[idx].snake:
+                layer.append(1)
+            else:
+                layer.append(0)
         return np.asarray(layer)
 
     def select(self):
