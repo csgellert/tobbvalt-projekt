@@ -25,7 +25,8 @@ class kigyo:
             self.weights = child
     #uj random kaja készítő
     def ujKaja(self):
-       while True:
+        self.score += 1
+        while True:
             x=random.randint(0,RACS)
             y=random.randint(0,RACS)
             if (x,y) in self.snake: # megnézem, hogy nem esik-e bele a kaja saját magába
@@ -76,7 +77,6 @@ class kigyo:
                     self.snake.pop()
                     self.snake.insert(0,self.fej)
             self.steps +=1
-            self.fitness = self.steps + self.score *100
     #a kígyó kirajzolása
     def kigyorajzol(self):
         for i in range(len(self.snake)): #minden egyes elem helyére rajzolunk egy négyzetet

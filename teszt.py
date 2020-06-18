@@ -1,15 +1,13 @@
 import numpy as np
-import time
-tomb = (1,2)
 
-start = time.time()
-layer1 = np.array(tomb)
-end = time.time()
-print("array:",end-start)
-print(type(layer1))
+matrix = np.zeros((2,3))
+print(matrix)
 
-start = time.time()
-layer2 = np.asarray(tomb)
-end = time.time()
-print("asarray:",end-start)
-print(type(layer2))
+m = np.ones((6,))
+print(type(m), m.shape)
+
+matrix = np.matrix.flatten(matrix)
+print(type(matrix), matrix.shape)
+
+m[3:] = matrix[3:]
+print(m)
