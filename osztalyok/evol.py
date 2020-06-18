@@ -36,8 +36,7 @@ class evol:
                     pygame.display.update()
                     CLOCK.tick(1)
                     break # Ha meghal ne csinálja tovább...
-            else:
-                i.fitness = i.steps + i.score *100 #Ez a sor szerintem nem münködik
+            i.fitness = i.steps + (2**i.score)*20 # fitness számítás
     #sigmoid fv...
     def sigm(self, x):
         return 1/(1+np.exp(-x))
@@ -49,17 +48,43 @@ class evol:
         return np.argmax(out)
     # ide majd meg kellene adni mit lásson a kígyó...
     def inpLayer(self, idx):
-        return np.random.rand(1,2)
+        layer = [] # irányvektor, falak vannak-e
+
+        fejHely = np.asarray(self.peldanyok[idx].fej)
+        kajaHely = np.asarray(self.peldanyok[idx].kaja)
+        iranyvektor = kajaHely-fejHely
+        iranyvektor = iranyvektor/np.hypot(iranyvektor[0],iranyvektor[1]) # normalizálás
+        layer.append(iranyvektor[0])
+        layer.append(iranyvektor[1])
+
+        # négy irányba végignézni, hogy van-e test vagy fal => true / false
+        return np.asarray(layer)
+
     def select(self):
-        return (random.randint(0,self.peldanySzam-1),random.randint(0,self.peldanySzam-1))
+        selectionList = []
+        for idx, obj in enumerate(self.peldanyok):
+            for i in range(obj.fitness):
+                selectionList.append(idx)
+        idx1 = selectionList[random.randint(0,len(selectionList)-1)]
+        idx2 = selectionList[random.randint(0,len(selectionList)-1)]  # még nincs kizárva, hogy ugyanazt válasszuk ki
+        return (idx1,idx2)
     def crossover(self):
         a,b = self.select()
         dad = self.peldanyok[a].weights
         mom = self.peldanyok[b].weights
         child = []
         for i in range(len(dad)):
-            child.append((dad[i]+mom[i])/2)
+            sor1 = np.matrix.flatten(dad[i])
+            sor2 = np.matrix.flatten(mom[i])
+            torespont = random.randint(1,len(sor1)-1)
+            ures = np.zeros((len(sor1),))
+            ures[0:torespont] = sor1[0:torespont]
+            ures[torespont:] = sor2[torespont:]
+            child.append(ures.reshape(dad[i].shape))
         return child
+    def mutate(self):
+        pass
+
 
 
 # új generációk előállítása, select, crossover ... (mutáció)

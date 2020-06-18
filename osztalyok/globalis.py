@@ -6,7 +6,7 @@ import random
 pygame.init() # varázslat
 
 # AI paraméterek
-darabszam = 10 # hány példány van egy generációban
+darabszam = 5 # hány példány van egy generációban
 
 
 
@@ -21,7 +21,7 @@ RACS=30 # NxN rács
 #assert ((MERET/RACS)%1==0), 'MERET osztható kell legyen RACScsal'  de erre mi figyelünk
 
 #A játék sebessége
-FPS=10#FPS
+FPS = 100 # FPS
 CLOCK=pygame.time.Clock() #óra objektum, ennek az "ütése" (tick) határozza majd meg a sebességet
 
 #ablak létrehozása:
