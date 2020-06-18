@@ -20,24 +20,26 @@ class kigyo:
             self.weights.append(np.random.rand(20,4))
         else:
             self.weights = child
-        self.fej=(3,3) #a kígyó feje
+        self.fej=(round(RACS/2),round(RACS/2)) #a kígyó feje
         self.snake=[] #a kígyó testét tartalmazza
         self.snake.append(self.fej)
         self.snake.append((self.fej[0]-1,self.fej[1]))
         self.snake.append((self.fej[0]-2,self.fej[1]))
-        self.kaja = self.ujKaja()
+        self.kaja = self.ujKaja(True) # ha true, akkor nem számol plusz score-t
     #uj random kaja készítő
-    def ujKaja(self):
+    def ujKaja(self,rekurzio=False):
+        if rekurzio==False:
+            self.score += 1
         while True:
             x=random.randint(0,RACS)
             y=random.randint(0,RACS)
             if (x,y) in self.snake: # megnézem, hogy nem esik-e bele a kaja saját magába
-                return self.ujKaja() # rekurzió
+                return self.ujKaja(True) # rekurzió
             return (x,y) # ha minden rendben van
 
     #mozgás: Gege kódja alapján
     def move(self, direction,mozgott):
-        if mozgott==False:
+        if mozgott==False:      # fel
             if direction==0:
                 self.utolso=0
                 mozgott=True
@@ -45,40 +47,36 @@ class kigyo:
                 if self.fej==self.kaja:
                     self.snake.insert(0,self.fej)
                     self.kaja= self.ujKaja()
-                    self.score += 1
                 else:
                     self.snake.pop()
                     self.snake.insert(0,self.fej)
-            if direction==1:
+            if direction==1:    # jobbra
                 self.utolso=1
                 mozgott=True
                 self.fej = (self.fej[0],self.fej[1]+1)
                 if self.fej==self.kaja:
                     self.snake.insert(0,self.fej)
                     self.kaja= self.ujKaja()
-                    self.score += 1
                 else:
                     self.snake.pop()
                     self.snake.insert(0,self.fej)
-            if direction==2:
+            if direction==2:    # le
                 self.utolso=2
                 mozgott=True
                 self.fej = (self.fej[0]+1,self.fej[1])
                 if self.fej==self.kaja:
                     self.snake.insert(0,self.fej)
                     self.kaja= self.ujKaja()
-                    self.score += 1
                 else:
                     self.snake.pop()
                     self.snake.insert(0,self.fej)
-            if direction==3:
+            if direction==3:    # balra
                 self.utolso=3
                 mozgott=True
                 self.fej = (self.fej[0],self.fej[1]-1)
                 if self.fej==self.kaja:
                     self.snake.insert(0,self.fej)
                     self.kaja= self.ujKaja()
-                    self.score += 1
                 else:
                     self.snake.pop()
                     self.snake.insert(0,self.fej)
