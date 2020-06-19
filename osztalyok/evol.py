@@ -49,7 +49,7 @@ class evol:
                     if (mode == 1):
                         CLOCK.tick(1)
                     break # Ha meghal ne csinálja tovább...
-            obj.fitness = obj.steps + (2**obj.score - 1)*20 # fitness számítás
+            obj.fitness = (obj.steps - round(RACS/2)) + (2**obj.score - 1)*20 # fitness számítás
     #sigmoid fv...
     def sigm(self, x):
         return 1/(1+np.exp(-x))
