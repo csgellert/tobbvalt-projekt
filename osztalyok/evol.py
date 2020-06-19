@@ -43,7 +43,7 @@ class evol:
                     if (mode == 1):
                         CLOCK.tick(1)
                     break # Ha meghal ne csinálja tovább...
-            obj.fitness = obj.steps + (2**obj.score)*20 # fitness számítás
+            obj.fitness = obj.steps + (2**obj.score - 1)*20 # fitness számítás
     #sigmoid fv...
     def sigm(self, x):
         return 1/(1+np.exp(-x))
@@ -111,10 +111,15 @@ class evol:
             ures = np.zeros((len(sor1),))
             ures[0:torespont] = sor1[0:torespont]
             ures[torespont:] = sor2[torespont:]
+            ures = self.mutate(ures)
             child.append(ures.reshape(dad[i].shape))
         return child
-    def mutate(self):
-        pass
+    def mutate(self,array): # legyen 5% a mutáció esélye elemenként
+        global mutRate
+        for i in array:
+            if random.random() < mutRate:
+                i = random.random()
+        return array
     def fejlodes(self,show = False):
         fit = []
         for i in self.peldanyok:

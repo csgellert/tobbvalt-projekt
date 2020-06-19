@@ -7,7 +7,7 @@ pygame.init() # varázslat
 
 # AI paraméterek
 darabszam = 100 # hány példány van egy generációban
-
+mutRate = 0.05 # mutáció elemkénti esélye
 
 
 #globális változók: színek és méretek
