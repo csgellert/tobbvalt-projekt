@@ -2,7 +2,6 @@
 from .globalis import *
 
 class kigyo:
-    
     isAlive=True #él-e a kígyó
     steps = 0 #hány lépést élt meg az adott példány... (ez az AIhoz jöhet jól)
     score = 0 # hány kaját evett meg eddig

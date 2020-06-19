@@ -92,10 +92,15 @@ class evol:
         return np.asarray(layer)
 
     def select(self):
+        global kritFit, kritÉrt
         selectionList = []
         for idx, obj in enumerate(self.peldanyok):
-            for i in range(obj.fitness):
-                selectionList.append(idx)
+            if obj.fitness > kritFit:               # megnöveljük a jobb kígyók kiválasztásának esélyét
+                for i in range(obj.fitness*kritÉrt):
+                    selectionList.append(idx)
+            else:
+                for i in range(obj.fitness):
+                    selectionList.append(idx)
         idx1 = selectionList[random.randint(0,len(selectionList)-1)]
         idx2 = selectionList[random.randint(0,len(selectionList)-1)]  # még nincs kizárva, hogy ugyanazt válasszuk ki
         return (idx1,idx2)
