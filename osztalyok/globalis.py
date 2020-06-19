@@ -3,15 +3,15 @@ from pygame.locals import *
 import numpy as np
 import random
 
-pygame.init() # varázslat
+
 
 # AI paraméterek
 darabszam = 100 # hány példány van egy generációban
 mutRate = 0.2  # mutáció elemkénti esélye
 kritFit = 100   # az a kígyó ami efölöttit ér el sokkal nagyobb eséllyel lesz kiválasztva
 kritÉrt = 10    # ennyivel többször lesz beválogatva a kritikus fitnesszt elérő kígyó
-bolyongas = 100 # max lépésszám kaja evés nélkül
-
+bolyongas = 200 # max lépésszám kaja evés nélkül
+megjel = False
 
 #globális változók: színek és méretek
 FEKETE=(0,0,0)
@@ -25,23 +25,25 @@ RACS=30 # NxN rács
 
 #A játék sebessége
 FPS = 100 # FPS
-CLOCK=pygame.time.Clock() #óra objektum, ennek az "ütése" (tick) határozza majd meg a sebességet
+if(megjel):
+    pygame.init() # varázslat
+    CLOCK=pygame.time.Clock() #óra objektum, ennek az "ütése" (tick) határozza majd meg a sebességet
 
-#ablak létrehozása:
-display=pygame.display.set_mode((MERET,MERET)) #létrehozunk egy adott méretű surface objektumot, ezt lehet kijelezni
-pygame.display.set_caption('Snake')#cím beállítása
-#a szoveg kiiratás előkészítése különböző objektumokkal. Ez elég macerás, három lépcsős folyamat, de annyira nem is fontos a projekt szempontjából
-#szoveg: Game over
-szoveg=pygame.font.Font('freesansbold.ttf',32) 
-#pont: 'Pontok' felira
-pont=pygame.font.Font('freesansbold.ttf',16)
-szoveg1=szoveg.render('Game over!',True,KEK,PIROS)
-pont1=pont.render('Pontok:',True,KEK,PIROS)
-#pontszam: az aktuális pontszám (megevett kaják száma)
-pont2=pont1.get_rect()
-szoveg2=szoveg1.get_rect()
-pont2.center=(MERET/2, MERET-MERET/RACS/2)
-szoveg2.center=(MERET/2,MERET/2)
+    #ablak létrehozása:
+    display=pygame.display.set_mode((MERET,MERET)) #létrehozunk egy adott méretű surface objektumot, ezt lehet kijelezni
+    pygame.display.set_caption('Snake')#cím beállítása
+    #a szoveg kiiratás előkészítése különböző objektumokkal. Ez elég macerás, három lépcsős folyamat, de annyira nem is fontos a projekt szempontjából
+    #szoveg: Game over
+    szoveg=pygame.font.Font('freesansbold.ttf',32) 
+    #pont: 'Pontok' felira
+    pont=pygame.font.Font('freesansbold.ttf',16)
+    szoveg1=szoveg.render('Game over!',True,KEK,PIROS)
+    pont1=pont.render('Pontok:',True,KEK,PIROS)
+    #pontszam: az aktuális pontszám (megevett kaják száma)
+    pont2=pont1.get_rect()
+    szoveg2=szoveg1.get_rect()
+    pont2.center=(MERET/2, MERET-MERET/RACS/2)
+    szoveg2.center=(MERET/2,MERET/2)
 
 #ha az adott ciklusban már mozgott a kígyó, ez jelzi. Egy ciklusban csak egyszer mozog: vagy mi mozgatjuk, vagy halad előre
 global mozgott

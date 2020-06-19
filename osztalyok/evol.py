@@ -27,7 +27,7 @@ class evol:
         a.kajarajzol()
         pygame.display.update()
         CLOCK.tick(FPS)
-    def play(self, mode = 0): #Mindegyik példány lejátszik egy meccset
+    def play(self, mode  = False): #Mindegyik példány lejátszik egy meccset
         global bolyongas
         maradekLepes = bolyongas
         for idx, obj in enumerate(self.peldanyok):# bevezettem egy index változót is a fv-k miatt
@@ -44,9 +44,9 @@ class evol:
                     if (mode ==1):
                         self.mutat(obj)
                 else:
-                    display.blit(szoveg1,szoveg2)
-                    pygame.display.update()
-                    if (mode == 1):
+                    if (mode):
+                        display.blit(szoveg1,szoveg2)
+                        pygame.display.update()
                         CLOCK.tick(1)
                     break # Ha meghal ne csinálja tovább...
             obj.fitness = (obj.steps - round(RACS/2)) + (2**obj.score - 1)*20 # fitness számítás
@@ -132,12 +132,15 @@ class evol:
                 i = random.random()
         return array
     def fejlodes(self,show = False):
+        global kritFit
         fit = []
         for i in self.peldanyok:
             fit.append(i.fitness)
         evol.maxFit.append(max(fit))
         evol.minFit.append(min(fit))
         evol.avgFit.append(mean(fit))
+        #kritFit = mean(fit)*1.2
+
         if (show):
             plt.plot(evol.maxFit)
             plt.plot(evol.minFit)
