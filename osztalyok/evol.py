@@ -28,11 +28,17 @@ class evol:
         pygame.display.update()
         CLOCK.tick(FPS)
     def play(self, mode = 0): #Mindegyik példány lejátszik egy meccset
+        global bolyongas
+        maradekLepes = bolyongas
         for idx, obj in enumerate(self.peldanyok):# bevezettem egy index változót is a fv-k miatt
-            for k in range(100): # Ne bolyonghasssanak a végtelenségig...
+            while maradekLepes > 0: # Ne bolyonghasssanak a végtelenségig...
                 irany = self.network(self.inpLayer(idx),idx) #továbbra is random mozgás, de már NN -nel
                 if(obj.isAlive):
+                    startScore = obj.score
                     obj.move(irany,mozgott)
+                    endScore = obj.score
+                    if endScore > startScore:  # ha evett kaját, akkor újra van még "bolyongásnyi" lépése
+                        maradekLepes = bolyongas
                     if obj.utkozike():
                       obj.isAlive=False
                     if (mode ==1):

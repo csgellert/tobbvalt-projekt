@@ -6,10 +6,12 @@ import random
 pygame.init() # varázslat
 
 # AI paraméterek
-darabszam = 1000 # hány példány van egy generációban
-mutRate = 0.05 # mutáció elemkénti esélye
-kritFit = 100 # az a kígyó ami efölöttit ér el sokkal nagyobb eséllyel lesz kiválasztva
-kritÉrt = 2   # ennyivel többször lesz beválogatva a kritikus fitnesszt elérő kígyó
+darabszam = 100 # hány példány van egy generációban
+mutRate = 0.2  # mutáció elemkénti esélye
+kritFit = 100   # az a kígyó ami efölöttit ér el sokkal nagyobb eséllyel lesz kiválasztva
+kritÉrt = 10    # ennyivel többször lesz beválogatva a kritikus fitnesszt elérő kígyó
+bolyongas = 100 # max lépésszám kaja evés nélkül
+
 
 #globális változók: színek és méretek
 FEKETE=(0,0,0)
