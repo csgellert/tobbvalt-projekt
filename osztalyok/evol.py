@@ -1,9 +1,14 @@
 import pygame, sys
 from .globalis import *
 from .kigyo import kigyo
+from statistics import mean
+from matplotlib import pyplot as plt
 
 class evol:
     gen = 0 # hanyadik generációnál járunk... EZ EGY STATIKUS ADATTAG
+    maxFit = []# statikus adattagok
+    minFit = []
+    avgFit = []
     def __init__(self):
         evol.gen += 1 # statikus adattagot egyel növeljük
         self.gen = evol.gen # létrehozunk egy csak az adott példányhoz tartozó "gen" adattagot
@@ -110,6 +115,20 @@ class evol:
         return child
     def mutate(self):
         pass
+    def fejlodes(self,show = False):
+        fit = []
+        for i in self.peldanyok:
+            fit.append(i.fitness)
+        evol.maxFit.append(max(fit))
+        evol.minFit.append(min(fit))
+        evol.avgFit.append(mean(fit))
+        if (show):
+            plt.plot(evol.maxFit)
+            plt.plot(evol.minFit)
+            plt.plot(evol.avgFit)
+            plt.show()
+        
+
 
 
 
