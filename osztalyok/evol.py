@@ -3,6 +3,7 @@ from .globalis import *
 from .kigyo import kigyo
 from statistics import mean
 from matplotlib import pyplot as plt
+import pickle
 
 class evol:
     gen = 0 # hanyadik generációnál járunk... EZ EGY STATIKUS ADATTAG
@@ -16,6 +17,7 @@ class evol:
         self.peldanySzam = darabszam
         self.peldanyok = [] #A kezdeti állományok...
         if self.gen == 1: # az első generációnál tölti fel randomokkal
+            print("Kezdeti inicializalas")
             for i in range(self.peldanySzam):
                 self.peldanyok.append(kigyo()) #töltsük fel az állományt
     def add(self,inKigyo):
@@ -146,6 +148,14 @@ class evol:
             plt.plot(evol.minFit)
             plt.plot(evol.avgFit)
             plt.show()
+    def save(self):
+        self.maxFit = evol.maxFit # a statikus adattagokat csak így tudjuk átmenteni...
+        self.minFit = evol.minFit
+        self.avgFit = evol.avgFit
+        with open("mentett.pkl", mode="wb") as f:
+            pickle.dump(self, f) #Elmentjük az objektumot
+        print("Status saved sucsessfully")
+                
         
 
 
