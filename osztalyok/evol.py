@@ -3,6 +3,7 @@ from .globalis import *
 from .kigyo import kigyo
 from statistics import mean
 from matplotlib import pyplot as plt
+import pickle
 
 class evol:
     gen = 0 # hanyadik generációnál járunk... EZ EGY STATIKUS ADATTAG
@@ -16,6 +17,7 @@ class evol:
         self.peldanySzam = darabszam
         self.peldanyok = [] #A kezdeti állományok...
         if self.gen == 1: # az első generációnál tölti fel randomokkal
+            print("Kezdeti inicializalas")
             for i in range(self.peldanySzam):
                 self.peldanyok.append(kigyo()) #töltsük fel az állományt
     def add(self,inKigyo):
@@ -27,23 +29,29 @@ class evol:
         a.kajarajzol()
         pygame.display.update()
         CLOCK.tick(FPS)
-    def play(self, mode = 0): #Mindegyik példány lejátszik egy meccset
+    def play(self, mode  = False): #Mindegyik példány lejátszik egy meccset
+        global bolyongas
+        maradekLepes = bolyongas
         for idx, obj in enumerate(self.peldanyok):# bevezettem egy index változót is a fv-k miatt
-            for k in range(100): # Ne bolyonghasssanak a végtelenségig...
+            while maradekLepes > 0: # Ne bolyonghasssanak a végtelenségig...
                 irany = self.network(self.inpLayer(idx),idx) #továbbra is random mozgás, de már NN -nel
                 if(obj.isAlive):
+                    startScore = obj.score
                     obj.move(irany,mozgott)
+                    endScore = obj.score
+                    if endScore > startScore:  # ha evett kaját, akkor újra van még "bolyongásnyi" lépése
+                        maradekLepes = bolyongas
                     if obj.utkozike():
                       obj.isAlive=False
                     if (mode ==1):
                         self.mutat(obj)
                 else:
-                    display.blit(szoveg1,szoveg2)
-                    pygame.display.update()
-                    if (mode == 1):
+                    if (mode):
+                        display.blit(szoveg1,szoveg2)
+                        pygame.display.update()
                         CLOCK.tick(1)
                     break # Ha meghal ne csinálja tovább...
-            obj.fitness = obj.steps + (2**obj.score - 1)*20 # fitness számítás
+            obj.fitness = (obj.steps - round(RACS/2)) + (2**obj.score - 1)*20 # fitness számítás
     #sigmoid fv...
     def sigm(self, x):
         return 1/(1+np.exp(-x))
@@ -92,10 +100,15 @@ class evol:
         return np.asarray(layer)
 
     def select(self):
+        global kritFit, kritÉrt
         selectionList = []
         for idx, obj in enumerate(self.peldanyok):
-            for i in range(obj.fitness):
-                selectionList.append(idx)
+            if obj.fitness > kritFit:               # megnöveljük a jobb kígyók kiválasztásának esélyét
+                for i in range(obj.fitness*kritÉrt):
+                    selectionList.append(idx)
+            else:
+                for i in range(obj.fitness):
+                    selectionList.append(idx)
         idx1 = selectionList[random.randint(0,len(selectionList)-1)]
         idx2 = selectionList[random.randint(0,len(selectionList)-1)]  # még nincs kizárva, hogy ugyanazt válasszuk ki
         return (idx1,idx2)
@@ -121,17 +134,28 @@ class evol:
                 i = random.random()
         return array
     def fejlodes(self,show = False):
+        global kritFit
         fit = []
         for i in self.peldanyok:
             fit.append(i.fitness)
         evol.maxFit.append(max(fit))
         evol.minFit.append(min(fit))
         evol.avgFit.append(mean(fit))
+        #kritFit = mean(fit)*1.2
+
         if (show):
             plt.plot(evol.maxFit)
             plt.plot(evol.minFit)
             plt.plot(evol.avgFit)
             plt.show()
+    def save(self):
+        self.maxFit = evol.maxFit # a statikus adattagokat csak így tudjuk átmenteni...
+        self.minFit = evol.minFit
+        self.avgFit = evol.avgFit
+        with open("mentett.pkl", mode="wb") as f:
+            pickle.dump(self, f) #Elmentjük az objektumot
+        print("Status saved sucsessfully")
+                
         
 
 
