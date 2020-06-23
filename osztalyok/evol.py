@@ -152,7 +152,7 @@ class evol:
         self.maxFit = evol.maxFit # a statikus adattagokat csak így tudjuk átmenteni...
         self.minFit = evol.minFit
         self.avgFit = evol.avgFit
-        with open("mentett.pkl", mode="wb") as f:
+        with open("./Mentett/mentett.pkl", mode="wb") as f:
             pickle.dump(self, f) #Elmentjük az objektumot
         print("Status saved sucsessfully")
                 
