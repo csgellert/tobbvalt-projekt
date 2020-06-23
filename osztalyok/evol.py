@@ -4,12 +4,14 @@ from .kigyo import kigyo
 from statistics import mean
 from matplotlib import pyplot as plt
 import pickle
+from tqdm import tqdm
 
 class evol:
     gen = 0 # hanyadik generációnál járunk... EZ EGY STATIKUS ADATTAG
     maxFit = [] # statikus adattagok
     minFit = []
     avgFit = []
+    elit = 0
     def __init__(self):
         evol.gen += 1 # statikus adattagot egyel növeljük
         self.gen = evol.gen # létrehozunk egy csak az adott példányhoz tartozó "gen" adattagot
@@ -102,22 +104,32 @@ class evol:
         return np.asarray(layer)
 
     def fitness(self,obj):
-        obj.fitness = 1 + (2**obj.score - 1) #+ obj.kanyargas # fitness számítás
+        obj.fitness = obj.kanyargas*2 +obj.steps + (2**obj.score - 1) #+ obj.kanyargas # fitness számítás
 
-    def select(self):
-        global kritFit, kritÉrt
-        selectionList = []
-        for idx, obj in enumerate(self.peldanyok):
-            if obj.fitness > kritFit:               # megnöveljük a jobb kígyók kiválasztásának esélyét
-                for i in range(obj.fitness*kritÉrt):
-                    selectionList.append(idx)
-            else:
-                for i in range(obj.fitness):
-                    selectionList.append(idx)
-        idx1 = selectionList[random.randint(0,len(selectionList)-1)]
-        idx2 = selectionList[random.randint(0,len(selectionList)-1)]  # még nincs kizárva, hogy ugyanazt válasszuk ki
-        return (idx1,idx2)
-
+    def select(self,mode=0):
+        if mode == 0:
+            global kritFit, kritÉrt
+            selectionList = []
+            for idx, obj in enumerate(self.peldanyok):
+                if obj.fitness > kritFit:               # megnöveljük a jobb kígyók kiválasztásának esélyét
+                    for i in range(obj.fitness*kritÉrt):
+                        selectionList.append(idx)
+                else:
+                    for i in range(obj.fitness):
+                        selectionList.append(idx)
+            idx1 = selectionList[random.randint(0,len(selectionList)-1)]
+            idx2 = selectionList[random.randint(0,len(selectionList)-1)]  # még nincs kizárva, hogy ugyanazt válasszuk ki
+            return (idx1,idx2)
+        if mode == 1:
+            selectionList = []
+            for idx, obj in enumerate(self.peldanyok):
+                if obj.fitness >= evol.elit:          # megnöveljük a jobb kígyók kiválasztásának esélyét
+                    for i in range(obj.fitness):
+                        selectionList.append(idx)
+            rnd = random.randint(0,len(selectionList)-1)
+            idx1 = selectionList[rnd]
+            idx2 = selectionList[rnd-round(len(selectionList)/2)]
+            return (idx1, idx2)
     def crossover(self):
         a,b = self.select()
         dad = self.peldanyok[a].weights
@@ -149,9 +161,9 @@ class evol:
         evol.maxFit.append(max(fit))
         evol.minFit.append(min(fit))
         evol.avgFit.append(mean(fit))
-        #kritFit = mean(fit)*1.2
+        evol.elit = np.quantile(fit,0.5)
         for obj in self.peldanyok:
-            obj.div = abs(obj.fitness - evol.avgFit)
+            obj.div = abs(obj.fitness - evol.avgFit[-1])
 
         if (show):
             plt.plot(evol.maxFit)
@@ -169,7 +181,20 @@ class evol:
         
 
 
-
+def load():
+    print("Loading in...")
+    try:
+        with open("./Mentett/mentett.pkl", mode="rb") as opened_file:
+            ai = pickle.load(opened_file)
+            evol.gen=ai.gen
+            evol.maxFit=ai.maxFit
+            evol.minFit=ai.minFit
+            evol.avgFit=ai.avgFit 
+        print("File loaded in")
+    except:
+        ai = evol() # kezdő generáció
+        print("Error: 404 File not found")
+    return ai
 
 # új generációk előállítása, select, crossover ... (mutáció)
 def newgen(elozo):
@@ -177,3 +202,10 @@ def newgen(elozo):
     for i in range(darabszam):
         ujgen.add(kigyo(elozo.crossover())) # az új generációhoz hozzáadjuk az gyerek példányt, amibe először berakjuk az új súlyfüggvényeket
     return ujgen
+
+def train(ai, iter):
+    for i in tqdm(range(iter)):
+        ai.play()
+        ai.fejlodes()
+        ai = newgen(ai) # következő gen
+    return ai
