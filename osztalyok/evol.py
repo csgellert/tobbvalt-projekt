@@ -7,7 +7,7 @@ import pickle
 
 class evol:
     gen = 0 # hanyadik generációnál járunk... EZ EGY STATIKUS ADATTAG
-    maxFit = []# statikus adattagok
+    maxFit = [] # statikus adattagok
     minFit = []
     avgFit = []
     def __init__(self):
@@ -36,9 +36,11 @@ class evol:
             while maradekLepes > 0: # Ne bolyonghasssanak a végtelenségig...
                 irany = self.network(self.inpLayer(idx),idx) #továbbra is random mozgás, de már NN -nel
                 if(obj.isAlive):
-                    startScore = obj.score
-                    obj.move(irany,mozgott)
-                    endScore = obj.score
+                    if irany != obj.utolso: # kanyargás számlálása
+                        obj.kanyargas += 1
+                    startScore = obj.score  # mozgás előtti score
+                    obj.move(irany,mozgott) # mozgás
+                    endScore = obj.score    # mozgás utáni score, hogy össze tudjuk hasonlítani
                     if endScore > startScore:  # ha evett kaját, akkor újra van még "bolyongásnyi" lépése
                         maradekLepes = bolyongas
                     if obj.utkozike():
@@ -51,7 +53,7 @@ class evol:
                         pygame.display.update()
                         CLOCK.tick(1)
                     break # Ha meghal ne csinálja tovább...
-            obj.fitness = (obj.steps - round(RACS/2)) + (2**obj.score - 1)*20 # fitness számítás
+            self.fitness(obj) # fitness kiszámolása
     #sigmoid fv...
     def sigm(self, x):
         return 1/(1+np.exp(-x))
@@ -68,9 +70,9 @@ class evol:
         fejHely = np.asarray(self.peldanyok[idx].fej)
         kajaHely = np.asarray(self.peldanyok[idx].kaja)
         iranyvektor = kajaHely-fejHely
-        iranyvektor = iranyvektor/np.hypot(iranyvektor[0],iranyvektor[1]) # normalizálás
-        layer.append(iranyvektor[0])
-        layer.append(iranyvektor[1])
+        #iranyvektor = iranyvektor/np.hypot(iranyvektor[0],iranyvektor[1]) # normalizálás
+        layer.append(iranyvektor[0]/RACS)
+        layer.append(iranyvektor[1]/RACS)
 
         # négy irányba végignézni, hogy van-e test vagy fal => true / false
         #ha felfele van a fal vagy a teste:
@@ -98,6 +100,9 @@ class evol:
             layer.append(0)
 
         return np.asarray(layer)
+
+    def fitness(self,obj):
+        obj.fitness = obj.kanyargas + (2**obj.score - 1)*20 # fitness számítás
 
     def select(self):
         global kritFit, kritÉrt

@@ -7,6 +7,7 @@ class kigyo:
     score = 0 # hány kaját evett meg eddig
     fitness = 0
     utolso=2 #az utolsó lépése a kígyónak (balra, jobbra, föl, le), hogy ne tudjon a kígyó töbsször egy irányba mozogni ("ugrani")
+    kanyargas = 0 # hányszor kanyarodott
     #kaja=((random.randint(0,RACS),random.randint(0,RACS))) #kaja random helyen
     elozo=2
 
