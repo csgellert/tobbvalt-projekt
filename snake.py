@@ -12,7 +12,7 @@ try:
 except:
     ai = evol() # kezdő generáció
     print("Error: 404 File not found")
-genszam = 20
+genszam = 50
 for i in tqdm(range(genszam)):
     ai.play()
     ai.fejlodes()

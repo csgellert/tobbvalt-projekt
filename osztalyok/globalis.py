@@ -9,9 +9,9 @@ import random
 darabszam = 100 # hány példány van egy generációban
 mutRate = 0.2   # mutáció elemkénti esélye
 kritFit = 100   # az a kígyó ami efölöttit ér el sokkal nagyobb eséllyel lesz kiválasztva
-kritÉrt = 10    # ennyivel többször lesz beválogatva a kritikus fitnesszt elérő kígyó
+kritÉrt = 2    # ennyivel többször lesz beválogatva a kritikus fitnesszt elérő kígyó
 bolyongas = 200 # max lépésszám kaja evés nélkül
-megjel = True  # Legyen e pgame ablak?
+megjel = False  # Legyen e pgame ablak?
 
 #globális változók: színek és méretek
 FEKETE=(0,0,0)

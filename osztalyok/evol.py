@@ -102,7 +102,7 @@ class evol:
         return np.asarray(layer)
 
     def fitness(self,obj):
-        obj.fitness = obj.kanyargas + (2**obj.score - 1)*20 # fitness számítás
+        obj.fitness = 1 + (2**obj.score - 1) #+ obj.kanyargas # fitness számítás
 
     def select(self):
         global kritFit, kritÉrt
@@ -117,6 +117,7 @@ class evol:
         idx1 = selectionList[random.randint(0,len(selectionList)-1)]
         idx2 = selectionList[random.randint(0,len(selectionList)-1)]  # még nincs kizárva, hogy ugyanazt válasszuk ki
         return (idx1,idx2)
+
     def crossover(self):
         a,b = self.select()
         dad = self.peldanyok[a].weights
@@ -132,21 +133,25 @@ class evol:
             ures = self.mutate(ures)
             child.append(ures.reshape(dad[i].shape))
         return child
+
     def mutate(self,array): # legyen 5% a mutáció esélye elemenként
         global mutRate
         for i in array:
             if random.random() < mutRate:
                 i = random.random()
         return array
-    def fejlodes(self,show = False):
+
+    def fejlodes(self,show = False): # statisztikák
         global kritFit
         fit = []
-        for i in self.peldanyok:
-            fit.append(i.fitness)
+        for obj in self.peldanyok:
+            fit.append(obj.fitness)
         evol.maxFit.append(max(fit))
         evol.minFit.append(min(fit))
         evol.avgFit.append(mean(fit))
         #kritFit = mean(fit)*1.2
+        for obj in self.peldanyok:
+            obj.div = abs(obj.fitness - evol.avgFit)
 
         if (show):
             plt.plot(evol.maxFit)
