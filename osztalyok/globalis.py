@@ -4,7 +4,6 @@ import numpy as np
 import random
 
 
-
 # AI paraméterek
 darabszam = 100 # hány példány van egy generációban
 mutRate = 0.2   # mutáció elemkénti esélye
