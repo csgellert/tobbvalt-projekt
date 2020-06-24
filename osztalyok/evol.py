@@ -55,6 +55,7 @@ class evol:
                         pygame.display.update()
                         CLOCK.tick(1)
                     break # Ha meghal ne csinálja tovább...
+                maradekLepes -= 1
             self.fitness(obj) # fitness kiszámolása
     #sigmoid fv...
     def sigm(self, x):
