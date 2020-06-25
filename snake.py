@@ -1,7 +1,7 @@
 from osztalyok import *   # minden osztályt / függvényt az osztalyok csomagból importálunk
 
 ai = load()
-ai = train(ai,35)
-ai.save()#Az utolsó (megjelenített) generáció játéka nincs benne hogy le lehessen lőni a programot
-ai.play(megjel) #Ha ezt átírjátok True ra akkor megjeleníti a játékmenetet is
-ai.fejlodes(True)
+#ai = train(ai,iter=30) # kikommentelve ezzel lehet tovább fejleszteni az ai-t
+#ai.save() # a továbbfejlesztést el lehet menteni
+ai.fejlodes(show=True)
+ai.play(megjel) # a globalis.py-ban lehet állítani. True esetén megjeleníti a utolsó generáció játékmenetét

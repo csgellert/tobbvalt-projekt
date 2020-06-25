@@ -6,7 +6,6 @@ class kigyo:
     steps = 0 # hány lépést élt meg az adott példány
     score = 0 # hány kaját evett meg eddig
     fitness = 0
-    div = 0  # diverzitás
     utolso = 2 # az utolsó lépése a kígyónak (balra, jobbra, föl, le)
     kanyargas = 0 # hányszor kanyarodott
 

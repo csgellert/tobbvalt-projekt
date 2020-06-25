@@ -117,7 +117,10 @@ class evol: # Ez az osztály tartalmazza a Evolúciós AI algoritmushoz szükgs�
         return np.asarray(layer)
 
     def fitness(self,obj): # fitness számítás
-        obj.fitness = obj.kanyargas*2 + obj.steps + (2**obj.score - 1)
+        if obj.score < 6:
+            obj.fitness = 2**obj.score * obj.steps
+        else:
+            obj.fitness = (2**6 * obj.steps) + 2**(obj.score+1) + obj.steps
 
     # kiválasztás
     def select(self,mode=0):
@@ -150,7 +153,7 @@ class evol: # Ez az osztály tartalmazza a Evolúciós AI algoritmushoz szükgs�
 
     # keresztezés
     def crossover(self):
-        a,b = self.select()
+        a,b = self.select(mode=0)
         dad = self.peldanyok[a].weights
         mom = self.peldanyok[b].weights
         child = []
@@ -183,13 +186,11 @@ class evol: # Ez az osztály tartalmazza a Evolúciós AI algoritmushoz szükgs�
         evol.minFit.append(min(fit))
         evol.avgFit.append(mean(fit))
         evol.elit = np.quantile(fit,0.5) # nagyon béna kígyók kizárásához (kétoldalú rulettkeréknél alkalmazzuk)
-        for obj in self.peldanyok:
-            obj.div = abs(obj.fitness - evol.avgFit[-1])
 
         if (show):
-            plt.plot(evol.maxFit)
-            plt.plot(evol.minFit)
-            plt.plot(evol.avgFit)
+            plt.plot(evol.maxFit[0:-1])
+            plt.plot(evol.minFit[0:-1])
+            plt.plot(evol.avgFit[0:-1])
             plt.show()
 
     # legutolsó generáció, és korábbi statisztikák elmentése
@@ -197,7 +198,8 @@ class evol: # Ez az osztály tartalmazza a Evolúciós AI algoritmushoz szükgs�
         self.maxFit = evol.maxFit # a statikus adattagokat csak így tudjuk átmenteni...
         self.minFit = evol.minFit
         self.avgFit = evol.avgFit
-        with open("./Mentett/mentett.pkl", mode="wb") as f:
+        fajlnev = "./Mentett/mentett_"+str(struktura)+".pkl"
+        with open(fajlnev, mode="wb") as f:
             pickle.dump(self, f) # Elmentjük az objektumot
         print("Status saved sucsessfully")
 
@@ -205,7 +207,8 @@ class evol: # Ez az osztály tartalmazza a Evolúciós AI algoritmushoz szükgs�
 def load():
     print("Loading in...")
     try:
-        with open("./Mentett/mentett.pkl", mode="rb") as opened_file:
+        fajlnev = "./Mentett/mentett_"+str(struktura)+".pkl"
+        with open(fajlnev, mode="rb") as opened_file:
             ai = pickle.load(opened_file)
             evol.gen=ai.gen
             evol.maxFit=ai.maxFit
@@ -228,6 +231,6 @@ def newgen(elozo):
 def train(ai, iter):
     for i in tqdm(range(iter)):
         ai.play()
-        ai.fejlodes()
+        ai.fejlodes(show=False)
         ai = newgen(ai) # következő gen
     return ai

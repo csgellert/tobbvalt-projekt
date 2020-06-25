@@ -5,26 +5,27 @@ import random
 
 
 # AI paraméterek
-struktura = [6,20,4] # input layer, hidden layerek és kimeneti layerek száma
+struktura = [6,4] # input layer, hidden layerek és kimeneti layerek száma
 darabszam = 100 # hány példány legyen egy generációban
 mutRate = 0.2   # mutáció elemkénti esélye
 kritFit = 100   # az a kígyó ami efölöttit ér el sokkal nagyobb eséllyel lesz kiválasztva
 kritÉrt = 2    # ennyivel többször lesz beválogatva a kritikus fitnesszt elérő kígyó
-bolyongas = 200 # max lépésszám kaja evés nélkül
-megjel = False  # Mutassa az utolsó generációval fejlesztett AI hogy játszik?
+bolyongas = 100 # max lépésszám kaja evés nélkül
+megjel = True  # Mutassa az utolsó generációval fejlesztett AI hogyan játszik?
 
-#globális változók: színek és méretek
+#A játék megjelenítéséhez szükséges globális változók
+FPS = 100
+RACS = 30 # NxN rács
+MERET=(600) #az ablak mérete (Méret*Méret)
+# MERET osztható kell legyen RACScsal !!!
+
+#színek
 FEKETE=(0,0,0)
 FEHER=(255,255,255)
 KEK=(0,0,255)
 PIROS=(255,0,0)
 ZOLD=(0,255,0)
-MERET=(600) #az ablak mérete (Méret*Méret)
-RACS=30 # NxN rács
-# MERET osztható kell legyen RACScsal !!!
 
-#A játék sebessége
-FPS = 100 # FPS
 if(megjel):
     pygame.init() # varázslat
     CLOCK=pygame.time.Clock() #óra objektum, ennek az "ütése" (tick) határozza majd meg a sebességet
