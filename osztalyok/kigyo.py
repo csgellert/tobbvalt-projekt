@@ -14,9 +14,8 @@ class kigyo:
     def __init__(self,child=0): 
         self.weights = [] # ebben tároljuk a neurális háló struktúráját
         if child == 0: # child = 0, ha ez az első populáció
-            self.weights.append(np.random.rand(6,20)) # véletlen generált súlyokkal kezdünk
-            #self.weights.append(np.random.rand(20,20))
-            self.weights.append(np.random.rand(20,4))
+            for i in range(len(struktura)-1):
+                self.weights.append(np.random.rand(struktura[i],struktura[i+1])) # véletlen generált súlyokkal kezdünk
         else: # ha ez már egy fejlődés által létrehozott populáció, akkor eltároljuk a child változóban beadott súlymátrixot
             self.weights = child
 
