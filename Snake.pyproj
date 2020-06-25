@@ -30,9 +30,6 @@
     <Compile Include="osztalyok\globalis.py">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="osztalyok\main.py">
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Include="osztalyok\__init__.py">
       <SubType>Code</SubType>
     </Compile>

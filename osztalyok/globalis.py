@@ -5,12 +5,13 @@ import random
 
 
 # AI paraméterek
-darabszam = 100 # hány példány van egy generációban
+struktura = [6,20,4] # input layer, hidden layerek és kimeneti layerek száma
+darabszam = 100 # hány példány legyen egy generációban
 mutRate = 0.2   # mutáció elemkénti esélye
 kritFit = 100   # az a kígyó ami efölöttit ér el sokkal nagyobb eséllyel lesz kiválasztva
 kritÉrt = 2    # ennyivel többször lesz beválogatva a kritikus fitnesszt elérő kígyó
 bolyongas = 200 # max lépésszám kaja evés nélkül
-megjel = False  # Legyen e pgame ablak?
+megjel = False  # Mutassa az utolsó generációval fejlesztett AI hogy játszik?
 
 #globális változók: színek és méretek
 FEKETE=(0,0,0)
@@ -20,7 +21,7 @@ PIROS=(255,0,0)
 ZOLD=(0,255,0)
 MERET=(600) #az ablak mérete (Méret*Méret)
 RACS=30 # NxN rács
-#assert ((MERET/RACS)%1==0), 'MERET osztható kell legyen RACScsal'  de erre mi figyelünk
+# MERET osztható kell legyen RACScsal !!!
 
 #A játék sebessége
 FPS = 100 # FPS
@@ -43,10 +44,6 @@ if(megjel):
     szoveg2=szoveg1.get_rect()
     pont2.center=(MERET/2, MERET-MERET/RACS/2)
     szoveg2.center=(MERET/2,MERET/2)
-
-#ha az adott ciklusban már mozgott a kígyó, ez jelzi. Egy ciklusban csak egyszer mozog: vagy mi mozgatjuk, vagy halad előre
-global mozgott
-mozgott=False
 
 #a rács megrajzolása. 
 def racsrajzol():
