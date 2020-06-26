@@ -68,6 +68,16 @@ Ezen függvény segítségével lehet betanítani az kígyókat. Megadható szá
 #### save és load függvény
 Ezek segítségével tudunk elmenteni és betölteni AI generációkat, így onnan tudjuk folytatni a taníttatást ahol legutóbb abbahagytuk. Ha nem találja a betöltendő fájlt, akkor egy kezdeti populációt hoz létre. A fájlokat a "Mentett" mappában tároljuk ".pkl" kiterjesztéssel.
 
+### A futtatáshoz szükséges külső library-k:
+
+* Numpy
+* Pygame
+* Pickle
+* Tqdm
+* Matplotlib
+* Statistics
+* Random
+
 ## Konklúzió
 
-A projektünket sikeresnek könyveljük el, mivel el tudtuk készíteni magát a "Snake" játékot, ami önmagában is megfelelt volna a tárgy által elvárt projekt kritériumainak. Ezen felül sikerült olyan Mesterséges Intelligencia által vezérelt kígyókat készítenünk, amelyek akár 8-10 almát is megettek. Természetesen még nagyon sok mindent lehetne javítani a programon, főleg a **fitness** függvényen, de a mostani állapotában már teljesíti a mesterséges intelligenciához fűzödő elvárásainkat, így leadásra késznek nyilvánítjuk.
+A projektünket sikeresnek könyveljük el, mivel el tudtuk készíteni magát a "Snake" játékot, ezen felül sikerült olyan Mesterséges Intelligencia által vezérelt kígyókat készítenünk, amelyek akár 8-10 almát is megettek. Természetesen még nagyon sok mindent lehetne javítani a programon, főleg a **fitness** függvényen, de a mostani állapotában már teljesíti a mesterséges intelligenciához fűzödő elvárásainkat, így leadásra késznek nyilvánítjuk.
